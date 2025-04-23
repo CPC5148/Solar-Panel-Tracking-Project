@@ -1,14 +1,14 @@
 #include <Servo.h>
 #include "DHT.h"
 
-// ----- Pin Definitions -----
+// Pin Definitions
 #define SERVOPINH 5
 #define SERVOPINV 6
 #define DHTPIN 2
 #define DHTTYPE DHT11
 #define VOLTAGE_SENSOR_PIN A4
 
-// ----- Servo Setup -----
+// Servo Setup 
 Servo horizontal;
 Servo vertical;
 int servoHPos = 90;
@@ -16,7 +16,7 @@ int servoVPos = 130;
 const int servoHMin = 0, servoHMax = 180;
 const int servoVMin = 90, servoVMax = 180;
 
-// ----- LDR Pins -----
+// LDR Pins 
 const int ldrTopLeft = A0;
 const int ldrTopRight = A1;
 const int ldrBottomLeft = A2;
@@ -32,7 +32,7 @@ float panelVoltage = 0.0;               // Volts
 float currentDraw = 0.4;                // Amps (assumed constant)
 float powerOutput = 0.0;                // Watts
 
-// ----- Timing -----
+// Timing 
 unsigned long lastPrintTime = 0;
 const unsigned long printInterval = 2000; // ms
 
@@ -48,7 +48,7 @@ void setup() {
 }
 
 void loop() {
-  // ----- LDR Readings -----
+  //  LDR Readings 
   int lt = analogRead(ldrTopLeft);
   int rt = analogRead(ldrTopRight);
   int ld = analogRead(ldrBottomLeft);
@@ -65,9 +65,8 @@ void loop() {
     servoVPos += (diffV > 0) ? 1 : -1;
     servoVPos = constrain(servoVPos, servoVMin, servoVMax);
     vertical.write(servoVPos);
-  }
 
-  // ----- Horizontal Tracking -----
+  // Horizontal Tracking 
   int diffH = avgLeft - avgRight;
   if (abs(diffH) > lightTolerance) {
     servoHPos += (diffH > 0) ? 1 : -1;
@@ -75,7 +74,7 @@ void loop() {
     horizontal.write(servoHPos);
   }
 
-  // ----- Print Data Every 2 Seconds -----
+  // Print Data Every 2 Seconds
   if (millis() - lastPrintTime >= printInterval) {
     lastPrintTime = millis();
 
@@ -90,10 +89,10 @@ void loop() {
     int panelMilliVolts = panelVoltage * 1000; // mV
     int powerMilliWatts = powerOutput * 1000;  // mW
 
-    // ----- Serial Output -----
+    // Serial Output if neccessary
     
 
-    // Optional: LabVIEW or logging
+    // Optional: LabVIEW fpr better parsing
     Serial.print(tempF); Serial.print(",");
     Serial.print(humidity); Serial.print(",");
     Serial.print(servoHPos); Serial.print(",");
