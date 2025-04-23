@@ -23,10 +23,10 @@ const int ldrBottomLeft = A2;
 const int ldrBottomRight = A3;
 const int lightTolerance = 50;
 
-// ----- DHT Sensor -----
+// DHT Sensor
 DHT dht(DHTPIN, DHTTYPE);
 
-// ----- Voltage & Power Sensing -----
+// Voltage & Power Sensing
 const float voltageDividerRatio = 5.0; // Adjust based on your voltage divider
 float panelVoltage = 0.0;               // Volts
 float currentDraw = 0.4;                // Amps (assumed constant)
@@ -59,7 +59,7 @@ void loop() {
   int avgLeft = (lt + ld) / 2;
   int avgRight = (rt + rd) / 2;
 
-  // ----- Vertical Tracking -----
+  // Vertical Tracking 
   int diffV = avgTop - avgBottom;
   if (abs(diffV) > lightTolerance) {
     servoVPos += (diffV > 0) ? 1 : -1;
